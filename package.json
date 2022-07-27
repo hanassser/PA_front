@@ -1,5 +1,5 @@
 {
-  "name": "doubao_community_frontend",
+  "name": "social_frontend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -32,5 +32,8 @@
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "vue-template-compiler": "^2.6.11"
+  },
+  "engines": {
+    "node": "14.x"
   }
 }
