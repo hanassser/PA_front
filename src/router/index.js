@@ -84,6 +84,11 @@ const routes = [
     redirect: "/404",
     hidden: true,
   },
+  {
+    path: "/code-editor",
+    name: "code-editor",
+    component: () => import("@/views/codeEditor/CodeEditor"),
+  },
 ];
 
 const originalPush = VueRouter.prototype.push;

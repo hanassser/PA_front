@@ -55,7 +55,8 @@
                
 
           </el-tab-pane>
-          <Monaco />
+<!--          <Monaco />-->
+          <landing />
   
           
         </el-tabs>
@@ -80,10 +81,11 @@ import Pagination from '@/components/Pagination'
 import { execute } from '@/api/code/code'
 import MonacoEditor from 'monaco-editor-vue';
 import Monaco from '@/components/Monaco.vue';
+import Landing from '@/components/CodeEditor/Landing'
 
 export default {
   name: 'TopicList',
-  components: { Pagination, MonacoEditor, Monaco },
+  components: { Pagination, MonacoEditor, Monaco, Landing },
   data() {
     return {
       activeName: 'latest',
