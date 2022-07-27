@@ -88,6 +88,7 @@ const routes = [
     path: "/code-editor",
     name: "code-editor",
     component: () => import("@/views/codeEditor/CodeEditor"),
+    meta: { title: 'code editor', requireAuth: true }
   },
 ];
 

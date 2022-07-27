@@ -1,17 +1,33 @@
 <template>
   <div>
 
-  <div class="mt-2" id="editor" ref="editor" style="width: 600px; height: 500px"></div>
-  <button class="button click" @click="compile()">Run</button>
+  <div class="mt-2" id="editor" ref="editor" @change="valueToBeSaved()" style="width: 600px; height: 500px"></div>
+    <div class="row">
+      <button class="button click" @click="compile()">Run</button>
+      <button class="button click"  @click="modalValidate = !modalValidate">Save</button>
+<!--      <button class="button click">Save</button>-->
+      <save-code-modal :language="this.chosenLanguage.text" :code="valueToSave"
+          v-if="modalValidate"
+          @close="modalValidate = false"/>
+    </div>
   </div>
 </template>
 
 <script>
 import loader from "@monaco-editor/loader";
 import axios from "axios";
+import {post} from "@/api/post";
+import SaveCodeModal from "@/components/CodeEditor/SaveCodeModal";
 
 export default {
   name: "CodeEditor",
+  components: {SaveCodeModal},
+  data () {
+    return {
+      modalValidate: false,
+      valueToSave:''
+    }
+  },
   props: {
     chosenLanguage: {
       type: Object,
@@ -52,6 +68,10 @@ export default {
 
   },
   methods: {
+    valueToBeSaved(){
+      this.valueToSave = window.editor.getValue()
+    },
+
     compile(){
       let res = ""
       let qs = require("qs");
@@ -95,37 +115,3 @@ export default {
   }
 };
 </script>
-<!--<script>-->
-<!--import loader from "@monaco-editor/loader"-->
-
-<!--// export component-->
-<!--export default {-->
-<!--name: "CodeEditor",-->
-<!--functional: true,-->
-<!--// components: { Editor },-->
-<!--render(h, c) {-->
-<!--let { onChange, language, code, theme } = c.props-->
-<!--const [value, setValue] = useState(code || "")-->
-
-<!--const handleEditorChange = value => {-->
-<!--setValue(value)-->
-<!--onChange("code", value)-->
-<!--}-->
-<!--  monaco.editor.create(document.getElementById("editor"),editorOptions);-->
-
-<!--// return (-->
-<!--// <div class="overlay rounded-md overflow-hidden w-full h-full shadow-4xl">-->
-<!--// <editor-->
-<!--//     height="85vh"-->
-<!--//     width={`100%`}-->
-<!--//     language={language || "javascript"}-->
-<!--// value={value}-->
-<!--// theme={theme}-->
-<!--// defaultValue="// some comment"-->
-<!--// onChange={handleEditorChange}-->
-<!--// />-->
-<!--// </div>-->
-<!--// )-->
-<!--}-->
-<!--}-->
-<!--</script>-->
