@@ -21,9 +21,27 @@
         <b-navbar-item
           tag="router-link"
           :to="{ path: '/' }"
-        >
-          Post-it
+        >Post-it
         </b-navbar-item>
+
+        <b-navbar-dropdown
+            v-if="token != null || token !== ''"
+            :label="codeEditorNavbarLabel"
+        >
+          <b-navbar-item
+              tag="router-link"
+              :to="{ path: `/code-editor` }"
+          >
+            New code
+          </b-navbar-item>
+          <hr class="dropdown-divider">
+          <b-navbar-item
+              tag="router-link"
+              :to="{ path: `/member/${user.username}/codepost` }"
+          >
+            Your codes
+          </b-navbar-item>
+        </b-navbar-dropdown>
       </template>
 
       <template slot="end">
@@ -122,7 +140,8 @@ export default {
       logoUrl: require('@/assets/logo.png'),
       doubaoImg: require('@/assets/image/doubao.png'),
       searchKey: '',
-      darkMode: false
+      darkMode: false,
+      codeEditorNavbarLabel: "Code editor"
     }
   },
   computed: {

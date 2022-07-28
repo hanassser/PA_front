@@ -7,3 +7,11 @@ export function createcodePost(data) {
         data: data
     })
 }
+
+export function getListCodePostUser(pageNo, size, tab) {
+    return request(({
+        url: '/codepost/list4user',
+        method: 'get',
+        params: { pageNo: pageNo, size: size, tab: tab }
+    }))
+}

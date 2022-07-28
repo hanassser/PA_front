@@ -6,7 +6,6 @@
         {{ option.text }}
       </option>
     </select>
-    <span>Sélectionné : {{ selected.text }}</span>
 
   </div>
 </template>

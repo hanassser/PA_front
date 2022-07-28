@@ -3,7 +3,7 @@
     <el-card shadow="never">
       <div slot="header" class="clearfix">
         <el-tabs v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane label="Latest Topic" name="latest">
+          <el-tab-pane label="Your Codes" name="ycodes">
             <article v-for="(item, index) in articleList" :key="index" class="media">
               <div class="media-left">
                 <figure class="image is-48x48">
@@ -32,13 +32,9 @@
                       </span>
 
                       <span
-                        v-for="(tag, index) in item.tags"
-                        :key="index"
-                        class="tag is-hidden-mobile is-success is-light mr-1"
+                          class="tag is-hidden-mobile is-success is-light mr-1"
                       >
-                        <router-link :to="{ name: 'tag', params: { name: tag.name } }">
-                          {{ "#" + tag.name }}
-                        </router-link>
+                        Language : {{item.language}}
                       </span>
 
                       <span class="is-hidden-mobile">View : {{ item.view }}</span>
@@ -50,26 +46,25 @@
             </article>
           </el-tab-pane>
           <!-- execute code -->
-          <el-tab-pane label="Execute Code" >
-          
-               
+          <el-tab-pane label="Contributions" >
+
+
 
           </el-tab-pane>
-<!--          <Monaco />-->
-<!--          <landing />-->
-  
-          
+          <!--          <Monaco />-->
+
+
         </el-tabs>
-       
+
       </div>
 
       <!--pagination-->
       <pagination
-        v-show="page.total > 0"
-        :total="page.total"
-        :page.sync="page.current"
-        :limit.sync="page.size"
-        @pagination="init"
+          v-show="page.total > 0"
+          :total="page.total"
+          :page.sync="page.current"
+          :limit.sync="page.size"
+          @pagination="init"
       />
     </el-card>
   </div>
@@ -82,26 +77,22 @@ import { execute } from '@/api/code/code'
 import MonacoEditor from 'monaco-editor-vue';
 import Monaco from '@/components/Monaco.vue';
 import Landing from '@/components/CodeEditor/Landing'
+import {getListCodePostUser} from "@/api/codepost";
 
 export default {
-  name: 'TopicList',
-  components: { Pagination, MonacoEditor },
+  name: 'CodePostList',
+  components: { Pagination, MonacoEditor, Monaco, Landing },
   data() {
     return {
-      activeName: 'latest',
+      activeName: 'ycodes',
       articleList: [],
       page: {
         current: 1,
         size: 10,
         total: 0,
-        tab: 'latest'
+        tab: 'ycodes'
       },
-      codeResponse:{
-        success: Boolean,
-        output: "Output",
-        language:"",
-        timestamp:""
-      },
+
       options:{
 
       }
@@ -112,7 +103,7 @@ export default {
   },
   methods: {
     init(tab) {
-      getList(this.page.current, this.page.size, tab).then((response) => {
+      getListCodePostUser(this.page.current, this.page.size, tab).then((response) => {
         const { data } = response
         this.page.current = data.current
         this.page.total = data.total
@@ -127,7 +118,7 @@ export default {
     async executeCode(body) {
       execute(body).then(response => {
         const { data } = response
-       this.codeResponse.success = data.success
+        this.codeResponse.success = data.success
         this.codeResponse.output = data.output
         this.codeResponse.language = data.language
         this.codeResponse.timestamp = data.timestamp
@@ -135,7 +126,7 @@ export default {
       })
     },
     onChange(body) {
-    //  execute(body);
+      //  execute(body);
       console.log(body);
     },
   }

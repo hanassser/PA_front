@@ -74,6 +74,12 @@ const routes = [
     meta: { title: '设置', requireAuth: true }
   },
   {
+    name: 'user-codepost',
+    path: '/member/:username/codepost',
+    component: () => import('@/views/codepost/CodePostHome'),
+    meta: { title: 'code post', requireAuth: true }
+  },
+  {
     path: "/404",
     name: "404",
     component: () => import("@/views/error/404"),
