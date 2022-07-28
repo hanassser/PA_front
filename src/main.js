@@ -2,6 +2,9 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+
+//vuelidate
+import Vuelidate from 'vuelidate'
 // Buefy
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
@@ -32,6 +35,10 @@ Vue.filter('date', (date) => {
   return format(new Date(date), 'yyyy-MM-dd')
 })
 
+
+
+//Plugins
+Vue.use(Vuelidate)
 Vue.use(Buefy)
 Vue.use(ElementUI, {locale});
 

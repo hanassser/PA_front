@@ -74,6 +74,12 @@ const routes = [
     meta: { title: '设置', requireAuth: true }
   },
   {
+    name: 'user-codepost',
+    path: '/member/:username/codepost',
+    component: () => import('@/views/codepost/CodePostHome'),
+    meta: { title: 'code post', requireAuth: true }
+  },
+  {
     path: "/404",
     name: "404",
     component: () => import("@/views/error/404"),
@@ -83,6 +89,12 @@ const routes = [
     path: "*",
     redirect: "/404",
     hidden: true,
+  },
+  {
+    path: "/code-editor",
+    name: "code-editor",
+    component: () => import("@/views/codeEditor/CodeEditor"),
+    meta: { title: 'code editor', requireAuth: true }
   },
 ];
 
