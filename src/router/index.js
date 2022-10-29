@@ -103,6 +103,12 @@ const routes = [
     component: () => import("@/views/codeEditor/CodeEditor"),
     meta: { title: 'code editor', requireAuth: true }
   },
+  {
+    path: "/code-collab/:id",
+    name: "code-collab",
+    component: () => import("@/views/codeCollaboration/CodeCollaboration"),
+    meta: { title: 'code collaboration', requireAuth: true }
+  },
 ];
 
 const originalPush = VueRouter.prototype.push;

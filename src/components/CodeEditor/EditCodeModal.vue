@@ -4,16 +4,6 @@
       @close="$emit('close')">
     <div slot="body">
       <form @submit.prevent="onSubmitCode">
-        <!-- Title -->
-        <div class="form-item" :class="{ errorInput: $v.title.$error }">
-          <label>Title:</label>
-          <p class="errorText" v-if="!$v.title.required"> Field is required!</p>
-          <input
-              v-model="title"
-              :class="{ error: $v.title.$error }"
-              @change="$v.title.$touch()">
-        </div>
-        <!-- Description -->
         <div class="form-item" :class="{ errorInput: $v.description.$error }">
           <label>Description:</label>
           <p class="errorText" v-if="!$v.description.required"> Field is required!</p>
@@ -22,6 +12,7 @@
               :class="{ error: $v.description.$error }"
               @change="$v.description.$touch()">
         </div>
+        <h3>{{this.codepost.code}}</h3>
         <h3>{{this.code}}</h3>
         <!-- Button -->
         <button class="button click">Save</button>
@@ -35,6 +26,7 @@ import { required } from 'vuelidate/lib/validators'
 import modal from '@/components/CodeEditor/Modal'
 import {createcodePost} from "@/api/codepost";
 export default {
+  name: "EditCodeModal",
   components: {
     modal
   },
@@ -46,20 +38,15 @@ export default {
     }
   },
   props: {
-    language: {
-      type: String,
+    codepost: {
+      type: Object
     },
-    languageId: {
-      type: Number,
-    },
+
     code: {
       type: String,
-     }
+    }
   },
   validations: {
-    title: {
-      required,
-    },
     description: {
       required,
     },
@@ -68,14 +55,28 @@ export default {
   methods: {
     onSubmitCode () {
       this.$v.$touch()
-      if(!this.$v.$invalid) {
-        const codepost = {
-          title: this.title,
-          description: this.description,
-          language : this.language,
-          languageId : this.languageId,
-          code : this.code
-        }
+      if (this.codepost.code === this.code) {
+        console.log("No difference with the previous code")
+        alert("You can not save : No difference with the previous code")
+        return false
+      }
+      else if(!this.$v.$invalid) {
+        const codepost = this.codepost
+        codepost.code = this.code
+        codepost.description = this.description
+        codepost.originalPostId = this.codepost.id
+        codepost.id = ""
+
+        console.log("codeposttosave "+ codepost.code)
+
+
+        // const codepost = {
+        //   title: this.title,
+        //   description: this.description,
+        //   language : this.language,
+        //   languageId : this.languageId,
+        //   code : this.code
+        // }
 
         console.log(JSON.stringify(codepost))
 
@@ -92,13 +93,14 @@ export default {
         })
       } else {
         console.log('error submit!!')
+        alert('something went wrong')
         return false
       }
 
 
-        this.$v.$reset()
-        this.$emit('close')
-      }
+      this.$v.$reset()
+      this.$emit('close')
+    }
 
 
   }

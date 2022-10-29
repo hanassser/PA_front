@@ -40,17 +40,17 @@
           >
             <router-link
                 class="level-item"
-                :to="{name:'topic-edit',params: {id:codepost.id}}"
+                :to="{name:'code-collab',params: {id:codepost.id}}"
             >
               <span class="tag">Edit</span>
             </router-link>
 
-            <a class="level-item">
-              <span
-                  class="tag"
-                  @click="handleRun(codepost.id)"
-              >Run</span>
-            </a>
+            <router-link
+                class="level-item"
+                :to="{name:'code-collab',params: {id:codepost.id}}"
+            >
+              <span class="tag">Run </span>
+            </router-link>
             <a v-if="token && user.id === codePostUser.id"class="level-item">
               <span
                   class="tag"
