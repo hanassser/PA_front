@@ -52,7 +52,7 @@
           <!-- execute code -->
           <el-tab-pane label="Execute Code" >
           
-               
+               <monaco-editor></monaco-editor>
 
           </el-tab-pane>
 <!--          <Monaco />-->

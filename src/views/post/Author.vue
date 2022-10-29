@@ -18,13 +18,14 @@
          
           <div class="column is-half">
             <code>{{ user.followerCount }}</code>
-            <router-link :to="{ path: `/member/${user.username}/home` }">            <p>Followers</p>
+            <router-link :to="{ path: `/member/${user.username}/followers` }">            <p>Followers</p>
             </router-link>
               
           </div>
-         
+
         </div>
         <div>
+          <button @click="getFollowers">get</button>
           <button
             v-if="hasFollow"
             class="button is-success button-center is-fullwidth"
@@ -43,7 +44,7 @@
 </template>
 
 <script>
-import { follow, hasFollow, unFollow } from '@/api/follow'
+import {follow, getAllFollowersArray, hasFollow, unFollow} from '@/api/follow'
 import { mapGetters } from 'vuex'
 export default {
   name: 'Author',
@@ -67,6 +68,10 @@ export default {
     ])
   },
   methods: {
+    getFollowers(){
+      console.log('haha')
+      getAllFollowersArray(this.user.id);
+    },
     fetchInfo() {
       if(this.token != null && this.token !== '')
       {

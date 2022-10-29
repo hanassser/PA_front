@@ -66,6 +66,13 @@ const routes = [
     component: () => import('@/views/user/Profile'),
     meta: { title: '用户主页' }
   },
+  // user followers
+  {
+    name: 'followers',
+    path: '/member/:username/followers',
+    component: () => import('@/views/user/Follower'),
+    meta: { title: 'Followers' }
+  },
   // user setting
   {
     name: 'user-setting',
