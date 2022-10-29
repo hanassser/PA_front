@@ -24,25 +24,18 @@
         <!--Markdown-->
         <div id="preview" />
 
-        <!--tags-->
+        <!--language-->
         <nav class="level has-text-grey is-size-7 mt-6">
           <div class="level-left">
             <p class="level-item">
               <b-taglist>
-<!--                <router-link-->
-<!--                    v-for="(tag, index) in tags"-->
-<!--                    :key="index"-->
-<!--                    :to="{ name: 'tag', params: { name: tag.name } }"-->
-<!--                >-->
                   <b-tag type="is-info is-light mr-1">
                     {{ "#" + codepost.language }}
                   </b-tag>
-<!--                </router-link>-->
               </b-taglist>
             </p>
           </div>
           <div
-              v-if="token && user.id === codePostUser.id"
               class="level-right"
           >
             <router-link
@@ -51,17 +44,18 @@
             >
               <span class="tag">Edit</span>
             </router-link>
-            <a class="level-item">
-              <span
-                  class="tag"
-                  @click="handleDelete(codepost.id)"
-              >Delete</span>
-            </a>
+
             <a class="level-item">
               <span
                   class="tag"
                   @click="handleRun(codepost.id)"
               >Run</span>
+            </a>
+            <a v-if="token && user.id === codePostUser.id"class="level-item">
+              <span
+                  class="tag"
+                  @click="handleDelete(codepost.id)"
+              >Delete</span>
             </a>
           </div>
 
@@ -132,9 +126,7 @@ export default {
         document.title = data.codepost.title
 
         this.codepost = data.codepost
-        // this.tags = data.tags
         this.codePostUser = data.user
-        // this.comments = data.comments
         this.renderMarkdown(this.codepost.code)
         this.flag = true
       })

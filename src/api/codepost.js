@@ -16,7 +16,7 @@ export function getListCodePostUser(pageNo, size, tab) {
     }))
 }
 
-// get post by id
+// get codepost by id
 export function getCodePost(id) {
     return request({
         url: `/codepost`,
@@ -26,3 +26,21 @@ export function getCodePost(id) {
         }
     })
 }
+
+// get codepost list
+export function getCodePostList(pageNo, size, tab) {
+    return request(({
+        url: '/codepost/list',
+        method: 'get',
+        params: { pageNo: pageNo, size: size, tab: tab }
+    }))
+}
+
+
+
+
+
+
+
+
+
