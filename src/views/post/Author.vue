@@ -25,7 +25,6 @@
 
         </div>
         <div>
-          <button @click="getFollowers">get</button>
           <button
             v-if="hasFollow"
             class="button is-success button-center is-fullwidth"
