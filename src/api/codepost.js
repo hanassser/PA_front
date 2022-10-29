@@ -15,3 +15,14 @@ export function getListCodePostUser(pageNo, size, tab) {
         params: { pageNo: pageNo, size: size, tab: tab }
     }))
 }
+
+// get post by id
+export function getCodePost(id) {
+    return request({
+        url: `/codepost`,
+        method: 'get',
+        params: {
+            id: id
+        }
+    })
+}

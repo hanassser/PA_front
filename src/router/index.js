@@ -79,6 +79,13 @@ const routes = [
     component: () => import('@/views/codepost/CodePostHome'),
     meta: { title: 'code post', requireAuth: true }
   },
+  // detail
+  {
+    name: "codepost-detail",
+    path: "/codepost/:id",
+    component: () => import("@/views/codepost/CodePostDetail"),
+    meta: { title: "详情" },
+  },
   {
     path: "/404",
     name: "404",

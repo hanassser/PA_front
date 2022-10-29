@@ -6,7 +6,7 @@
       <lv-editor @output="getResult($event)" :chosenLanguage="language" :value="value"></lv-editor>
     </div>
     <div class="ml-3">
-      <OutputWindow :success="runOutput.success" :value="runOutput"></OutputWindow>
+      <OutputWindow :status_id="runOutput.status_id" :value="runOutput"></OutputWindow>
     </div>
 <!--    </div >-->
   </div>
@@ -24,16 +24,18 @@ export default {
     return {
       language: {
         text: "java",
-        value:"java"
+        value:62
       },
       value : "",
       runOutput : {
-        success: true,
+        status_id: 3,
         error: "",
         timestamp: "",
         output: "",
+        stderr : "",
         language: "",
-        version: ""
+        version: "",
+        stdout: ""
       }
 
     }

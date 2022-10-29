@@ -50,13 +50,11 @@
             </article>
           </el-tab-pane>
           <!-- execute code -->
-          <el-tab-pane label="Execute Code" >
+          <el-tab-pane label="Latest Codes" >
           
                
 
           </el-tab-pane>
-<!--          <Monaco />-->
-<!--          <landing />-->
   
           
         </el-tabs>
@@ -80,8 +78,6 @@ import { getList } from '@/api/post'
 import Pagination from '@/components/Pagination'
 import { execute } from '@/api/code/code'
 import MonacoEditor from 'monaco-editor-vue';
-import Monaco from '@/components/Monaco.vue';
-import Landing from '@/components/CodeEditor/Landing'
 
 export default {
   name: 'TopicList',

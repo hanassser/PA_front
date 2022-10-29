@@ -48,6 +48,9 @@ export default {
     language: {
       type: String,
     },
+    languageId: {
+      type: Number,
+    },
     code: {
       type: String,
      }
@@ -69,6 +72,7 @@ export default {
           title: this.title,
           description: this.description,
           language : this.language,
+          languageId : this.languageId,
           code : this.code
         }
 

@@ -6,11 +6,11 @@
     </h1>
 
     <div class="container fluid" >
-      <textarea v-if="success === true" class="positive w-full h-56 bg-[#1e293b] rounded-md text-white font-normal text-sm overflow-y-auto" style="width: 400px; height: 250px">
-      {{ value.output }}
+      <textarea v-if="status_id === 3" class="positive w-full h-56 bg-[#1e293b] rounded-md text-white font-normal text-sm overflow-y-auto" style="width: 400px; height: 250px">
+      {{ value.stdout }}
     </textarea>
     <textarea  v-else class="negative w-full h-56 bg-[#1e293b] rounded-md text-white font-normal text-sm overflow-y-auto" style="width: 400px; height: 250px">
-      {{ value.error }}
+      {{ value.stderr }}
     </textarea>
       <button class="button click ml-2" @click="clearOutputWindow()">Clear</button>
     </div>
@@ -22,14 +22,14 @@
 export default {
   name: "OutputWindow",
   props: {
-    success: {
-      type: Boolean,
-      default: true
-    },
     value: {
       type: Object,
       // default: ""
-    }
+    },
+    status_id: {
+      type: Number,
+      default: 3
+    },
   },
   methods:{
     clearOutputWindow(){

@@ -5,8 +5,7 @@
     <div class="row">
       <button class="button click" @click="compile()">Run</button>
       <button class="button click"  @click="modalValidate = !modalValidate">Save</button>
-<!--      <button class="button click">Save</button>-->
-      <save-code-modal :language="this.chosenLanguage.text" :code="valueToSave"
+      <save-code-modal :languageId="this.chosenLanguage.value" :language="this.chosenLanguage.text" :code="valueToSave"
           v-if="modalValidate"
           @close="modalValidate = false"/>
     </div>
@@ -16,7 +15,6 @@
 <script>
 import loader from "@monaco-editor/loader";
 import axios from "axios";
-import {post} from "@/api/post";
 import SaveCodeModal from "@/components/CodeEditor/SaveCodeModal";
 
 export default {
@@ -31,7 +29,10 @@ export default {
   props: {
     chosenLanguage: {
       type: Object,
-      default: { text: 'java', value: 'java' }
+      default() {
+        return  { text: 'java', value: 62 }
+      }
+      // default: { text: 'java', value: 62 }
     },
     value: {
       type: String,
@@ -61,7 +62,6 @@ export default {
         const model = window.editor.getModel(this); // we'll create a model for you if the editor created from string value.
         monaco.editor.setModelLanguage(model, this.chosenLanguage.text)
 
-        // console.log(window.editor.getModel(this))
 
       },
       immediate: true,
@@ -77,41 +77,60 @@ export default {
       let qs = require("qs");
       let code = window.editor.getValue()
       console.log("code : " + code)
-      let data = qs.stringify({
-        code: code,
-        language: this.chosenLanguage.value,
-        input: ""
+
+      console.log("value langue " + this.chosenLanguage.value)
+      let data = {
+        source_code: code,
+        language_id: this.chosenLanguage.value,
+        stdin: ""
+      }
+      let mydata = JSON.stringify(data)
+      console.log(mydata)
+
+      const axios = require("axios");
+
+      const options = {
+        method: 'POST',
+        url: 'https://judge0-ce.p.rapidapi.com/submissions',
+        params: {base64_encoded: 'false', fields: '*', wait: 'true'},
+        headers: {
+          'content-type': 'application/json',
+          'Content-Type': 'application/json',
+          'X-RapidAPI-Key': 'bd5865dd36msh2b759cf329fe440p1adaecjsna54592bd1706',
+          'X-RapidAPI-Host': 'judge0-ce.p.rapidapi.com'
+        },
+        data: mydata
+      };
+
+      axios.request(options).then((response) =>{
+
+        res = response.data
+        console.log("res" + res);
+        // alert("ok")
+        this.$emit('output', res)
+      }).catch(function (error) {
+        console.error(error);
+        alert("pas ok")
       });
 
-      console.log("data : " + JSON.stringify(data))
-      let headers = {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Access-Control-Allow-Origin": "*"
-      };
-      let config = {
-        method: "post",
-        url: "https://codex-api.herokuapp.com/",
-        headers: headers,
-        data: data
-      };
-      //calling the code compilation API
-      axios(config)
-          .then(((response)=>{
-            res = response.data
-            console.log("config : " + JSON.stringify(config))
-            // res.send(response.data)
-            console.log("response.data : " + JSON.stringify(response.data))
-             this.$emit('output',res)
-
-          })).catch((error)=>{
-        console.log("response error : " + error);
-        alert("Une erreur est survenue");
-      });
       if(res !== ""){
         console.log("codeEditor emit : " + res)
         this.$emit('output',res)
       }
+
     },
   }
 };
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
