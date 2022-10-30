@@ -23,3 +23,11 @@ export function hasFollow(topicUserId) {
     method: 'get'
   }))
 }
+
+// return all followers name array
+export function getAllFollowersArray(id){
+  return request(({
+    url:`/relationship/followers/${id}`,
+    method:'get'
+  }))
+}

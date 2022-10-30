@@ -13,6 +13,8 @@
             <p class="content">About：{{ topicUser.bio }}</p>
           </div>
         </el-card>
+        <Author :user="topicUser"
+        />
       </div>
 
       <div class="column">
@@ -81,10 +83,11 @@ import { getInfoByName } from '@/api/user'
 import pagination from '@/components/Pagination/index'
 import { mapGetters } from 'vuex'
 import { deleteTopic } from '@/api/post'
+import Author from '@/views/post/Author'
 
 export default {
   name: 'Profile',
-  components: { pagination },
+  components: { pagination, Author },
   data() {
     return {
       topicUser: {},
