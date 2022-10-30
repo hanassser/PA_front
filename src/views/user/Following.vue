@@ -2,15 +2,15 @@
   <section>
     <el-card shadow="never">
       <div slot="header">
-        Followers
+        Follows
       </div>
       <div class="columns">
         <div class="column is-full">
-          <el-card v-for="item in followerList">
-            <router-link class="level-item" :to="{ path: `/member/${item.followerName}/home` }">
-            <li style="list-style-type:none;" @click="toFollowerProfile">
-              {{ item.followerName }}
-            </li>
+          <el-card v-for="item in followsListName">
+            <router-link class="level-item" :to="{ path: `/member/${item}/home` }">
+              <li style="list-style-type:none;" @click="toFollowerProfile">
+                {{ item}}
+              </li>
             </router-link>
           </el-card>
         </div>
@@ -20,7 +20,8 @@
 </template>
 
 <script>
-import {getAllFollowersArray} from "@/api/follow";
+import {getAllFollowsArray} from "../../api/follow";
+import {getById} from "../../api/user";
 
 export default {
   name: 'Follower',
@@ -29,19 +30,32 @@ export default {
       follower: {
         id: '',
       },
-      followerList: [],
+      followsList: [],
+      followsListName: [],
     }
   },
   created() {
     this.fetchInfo()
   },
   methods: {
-    fetchInfo() {
-      getAllFollowersArray(this.$store.getters.user.id).then(res => {
+    async fetchInfo() {
+      await getAllFollowsArray(this.$route.params.id).then(res => {
         const {data} = res
-        this.followerList = data
+        this.followsList = data
+        console.log(JSON.stringify(this.followsList))
       })
+      this.followsList.forEach(elem => this.getNameFromId(elem))
     },
+
+    getNameFromId(id){
+      getById(id).then(res => {
+        this.followsListName.push(res.data.username)
+        console.log(res.data.username)
+        return res.data.username
+      })
+      },
+
+
     toFollowerProfile(){
 
     }

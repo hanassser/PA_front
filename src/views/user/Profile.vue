@@ -118,7 +118,7 @@ import pagination from '@/components/Pagination/index'
 import { mapGetters } from 'vuex'
 import { deleteTopic } from '@/api/post'
 import Author from '@/views/post/Author'
-import {unFollow, follow,getAllFollowersArray, hasFollow} from "../../api/follow";
+import {unFollow, follow, getAllFollowersArray, hasFollow, getAllFollowsArray} from "../../api/follow";
 
 export default {
   name: 'Profile',
@@ -144,6 +144,7 @@ export default {
   async created() {
     await this.fetchUserById()
     await this.fetchInfoFollowers()
+    await this.fetchInfoFollows()
     await this.fetchInfo()
     this.userId = this.topicUser.id
   },
@@ -164,6 +165,15 @@ export default {
       getAllFollowersArray(this.userId).then(value => {
         const { data } = value
         this.followerCount = data.length
+
+      })
+
+    },
+    async fetchInfoFollows() {
+
+      getAllFollowsArray(this.userId).then(value => {
+        const { data } = value
+        this.followsCount = data.length
 
       })
 

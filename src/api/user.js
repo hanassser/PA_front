@@ -26,5 +26,16 @@ export function update(user) {
     data: user
   })
 }
+// user by Id
+export function getById(id) {
+  return request({
+    url: '/ums/user/byId',
+    method: 'get',
+    params: {
+      userId: id
+    }
+  })
+}
+
 
 

@@ -34,3 +34,14 @@ export function getAllFollowersArray(id){
     }
   }))
 }
+
+// return all followers name array
+export function getAllFollowsArray(id){
+  return request(({
+    url:`/codepost/follows`,
+    method:'get',
+    params: {
+      userId: id,
+    }
+  }))
+}
