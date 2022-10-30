@@ -40,6 +40,16 @@ export function getListCodePostUser(pageNo, size, tab) {
     }))
 }
 
+export function getListFriendsCodePost(pageNo, size, tab) {
+    return request(({
+        url: '/codepost/listfriendscp',
+        method: 'get',
+        params: { pageNo: pageNo, size: size, tab: tab }
+    }))
+}
+
+
+
 export function getListContribCodePostUser(pageNo, size, tab) {
     return request(({
         url: '/codepost/listcontrib4user',
