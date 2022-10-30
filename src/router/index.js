@@ -73,6 +73,14 @@ const routes = [
     component: () => import('@/views/user/Follower'),
     meta: { title: 'Followers' },
   },
+
+  // user follows
+  {
+    name: 'follows',
+    path: '/member/:id/follows/',
+    // component: () => import('@/views/user/Follower'),
+    meta: { title: 'Followers' },
+  },
   // user setting
   {
     name: 'user-setting',

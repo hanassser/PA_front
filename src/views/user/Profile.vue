@@ -13,8 +13,29 @@
             <p class="content">About：{{ topicUser.bio }}</p>
           </div>
         </el-card>
-        <Author :user="topicUser"
-        />
+        <section id="author">
+          <el-card class="" shadow="never">
+            <div slot="header">
+              <span class="has-text-weight-bold has-text-centered">   ❤  Relationships</span>
+            </div>
+            <div class="has-text-centered">
+
+              <div class="columns is-mobile">
+                <div class="column is-half">
+                  <code>{{ this.followsCount }}</code>
+                  <router-link :to="{ name: 'follows',params:{id:userId} }">            <p>Follows</p>
+                  </router-link>
+                </div>
+
+                <div class="column is-half">
+                  <code>{{ this.followerCount }}</code>
+                  <router-link :to="{ name: 'followers',params:{id:userId} }">            <p>Followers</p>
+                  </router-link>
+                </div>
+              </div>
+            </div>
+          </el-card>
+        </section>
       </div>
 
       <div class="column">
@@ -84,6 +105,7 @@ import pagination from '@/components/Pagination/index'
 import { mapGetters } from 'vuex'
 import { deleteTopic } from '@/api/post'
 import Author from '@/views/post/Author'
+import {getAllFollowersArray} from "../../api/follow";
 
 export default {
   name: 'Profile',
@@ -96,24 +118,38 @@ export default {
         current: 1,
         size: 5,
         total: 0
-      }
+      },
+      userId: "",
+      followerCount: 0,
+      followsCount: 0
     }
   },
   computed: {
     ...mapGetters(['token', 'user'])
   },
-  created() {
-    this.fetchUserById()
+  async created() {
+    await this.fetchUserById()
+    await this.fetchInfoFollowers()
+    this.userId = this.topicUser.id
   },
   methods: {
-    fetchUserById() {
-      getInfoByName(this.$route.params.username, this.page.current, this.page.size).then((res) => {
+    async fetchUserById() {
+      await getInfoByName(this.$route.params.username, this.page.current, this.page.size).then(res => {
         const { data } = res
         this.topicUser = data.user
+        this.userId = this.topicUser.id
         this.page.current = data.topics.current
         this.page.size = data.topics.size
         this.page.total = data.topics.total
         this.topics = data.topics.records
+      })
+    },
+    async fetchInfoFollowers() {
+
+      getAllFollowersArray(this.userId).then(value => {
+        const { data } = value
+        this.followerCount = data.length
+
       })
     },
     handleDelete(id) {
