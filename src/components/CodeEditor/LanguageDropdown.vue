@@ -32,7 +32,6 @@ export default {
 methods: {
   passEvent()
   {
-    console.log("selected : "+ this.selected.text)
     this.$emit('input',this.selected)
   }
 }

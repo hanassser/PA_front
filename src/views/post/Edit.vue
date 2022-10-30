@@ -83,7 +83,6 @@ export default {
       this.topic.content = this.contentEditor.getValue();
       update(this.topic).then((response) => {
         const { data } = response;
-        console.log(data);
         setTimeout(() => {
           this.$router.push({
             name: "post-detail",

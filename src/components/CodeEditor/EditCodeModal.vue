@@ -12,8 +12,6 @@
               :class="{ error: $v.description.$error }"
               @change="$v.description.$touch()">
         </div>
-        <h3>{{this.codepost.code}}</h3>
-        <h3>{{this.code}}</h3>
         <!-- Button -->
         <button class="button click">Save</button>
       </form>
@@ -56,7 +54,6 @@ export default {
     onSubmitCode () {
       this.$v.$touch()
       if (this.codepost.code === this.code) {
-        console.log("No difference with the previous code")
         alert("You can not save : No difference with the previous code")
         return false
       }
@@ -66,19 +63,6 @@ export default {
         codepost.description = this.description
         codepost.originalPostId = this.codepost.id
         codepost.id = ""
-
-        console.log("codeposttosave "+ codepost.code)
-
-
-        // const codepost = {
-        //   title: this.title,
-        //   description: this.description,
-        //   language : this.language,
-        //   languageId : this.languageId,
-        //   code : this.code
-        // }
-
-        console.log(JSON.stringify(codepost))
 
         createcodePost(codepost).then((response) => {
           const { codepost } = response
@@ -92,8 +76,7 @@ export default {
           }, 800)
         })
       } else {
-        console.log('error submit!!')
-        alert('something went wrong')
+        alert('Something went wrong')
         return false
       }
 

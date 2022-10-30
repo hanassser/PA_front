@@ -44,12 +44,10 @@ export default {
   methods: {
     ChangeL(language)
     {
-      console.log("landing : "+ language.text)
       this.language=language;
     },
     getResult(output)
     {
-      console.log("landing getResult: "+ JSON.stringify(output))
       this.runOutput=output;
     },
   }

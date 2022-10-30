@@ -93,7 +93,6 @@ export default {
   methods: {
     fetchList: function() {
       getTopicsByTag(this.paramMap).then(response => {
-        console.log(response)
         this.topics = response.data.topics.records
         this.tags = response.data.hotTags.records
       })

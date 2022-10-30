@@ -4,16 +4,6 @@
       @close="$emit('close')">
     <div slot="body">
       <form @submit.prevent="onSubmitCode">
-        <!-- Title -->
-        <div class="form-item" :class="{ errorInput: $v.title.$error }">
-          <label>Title:</label>
-          <p class="errorText" v-if="!$v.title.required"> Field is required!</p>
-          <input
-              v-model="title"
-              :class="{ error: $v.title.$error }"
-              @change="$v.title.$touch()">
-        </div>
-        <!-- Description -->
         <div class="form-item" :class="{ errorInput: $v.description.$error }">
           <label>Description:</label>
           <p class="errorText" v-if="!$v.description.required"> Field is required!</p>
@@ -33,7 +23,9 @@
 import { required } from 'vuelidate/lib/validators'
 import modal from '@/components/CodeEditor/Modal'
 import {createcodePost} from "@/api/codepost";
+import {updatecodePost} from "../../api/codepost";
 export default {
+  name: "ReviewCodeModal",
   components: {
     modal
   },
@@ -45,20 +37,15 @@ export default {
     }
   },
   props: {
-    language: {
-      type: String,
+    codepost: {
+      type: Object
     },
-    languageId: {
-      type: Number,
-    },
+
     code: {
       type: String,
-     }
+    }
   },
   validations: {
-    title: {
-      required,
-    },
     description: {
       required,
     },
@@ -66,18 +53,19 @@ export default {
   },
   methods: {
     onSubmitCode () {
-      this.$v.$touch()
-      if(!this.$v.$invalid) {
-        const codepost = {
-          title: this.title,
-          description: this.description,
-          language : this.language,
-          languageId : this.languageId,
-          code : this.code
-        }
 
-        createcodePost(codepost).then((response) => {
-          const { codepost } = response
+      this.$v.$touch()
+      if (this.codepost.code === this.code) {
+        alert("You can not save : No difference with the previous code")
+        return false
+      }
+      else if(!this.$v.$invalid) {
+
+        const codepostID = this.codepost.id
+        const codeposttmp = this.codepost
+        codeposttmp.id = codepostID
+        updatecodePost(codeposttmp).then((response) => {
+          const { codepostupdated } = response
           this.$message({
             message: "code saved !",
             type: "success",
@@ -86,15 +74,36 @@ export default {
           setTimeout(() => {
 
           }, 800)
+
+          const codepostupd = this.codepost
+          codepostupd.code = this.code
+          codepostupd.description = this.description
+          codepostupd.reviewOf = this.codepost.id
+          codepostupd.originalPostId = ""
+          codepostupd.id = ""
+
+          createcodePost(codepostupd).then((response) => {
+            const { codepostupd2 } = response
+            this.$message({
+              message: "code saved !",
+              type: "success",
+              duration: 2000,
+            });
+            setTimeout(() => {
+
+            }, 800)
+          })
         })
+
       } else {
+        alert('something went wrong')
         return false
       }
 
 
-        this.$v.$reset()
-        this.$emit('close')
-      }
+      this.$v.$reset()
+      this.$emit('close')
+    }
 
 
   }

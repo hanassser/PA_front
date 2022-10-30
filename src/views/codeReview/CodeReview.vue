@@ -6,8 +6,8 @@
       <div class="mt-2" id="editor" ref="editor" @change="valueToBeSaved()" style="width: 600px; height: 500px"></div>
       <div class="row">
         <button class="button click" @click="compile()">Run</button>
-        <button class="button click"  @click="modalValidate = !modalValidate">Collaborate</button>
-        <edit-code-modal onfocus="openModal()" :codepost="this.codepost" :code="this.editor.getValue()"
+        <button class="button click"  @click="modalValidate = !modalValidate">Review</button>
+        <review-code-modal onfocus="openModal()" :codepost="this.codepost" :code="this.editor.getValue()"
                          v-if="modalValidate"
                          @close="modalValidate = false"/>
       </div>
@@ -24,10 +24,10 @@ import OutputWindow from "../../components/CodeEditor/OutputWindow";
 import lvEditor from '@/components/CodeEditor/CodeEditor';
 import {getCodePost} from "../../api/codepost";
 import loader from "@monaco-editor/loader";
-import EditCodeModal from "../../components/CodeEditor/EditCodeModal";
+import ReviewCodeModal from "../../components/CodeEditor/ReviewCodeModal";
 export default {
-  name: 'CodeCollaboration',
-  components: {lvEditor, OutputWindow, EditCodeModal},
+  name: 'CodeReview',
+  components: {lvEditor, OutputWindow, ReviewCodeModal},
   data() {
     return {
 
@@ -58,6 +58,7 @@ export default {
     async fetchCodePost() {
       getCodePost(this.$route.params.id).then((value) => {
         this.codepost = value.data.codepost;
+
         this.language = { text: this.codepost.language, value: this.codepost.languageId }
         this.code = this.codepost.code
         loader.init().then((monaco) => {
@@ -103,7 +104,6 @@ export default {
       let res = ""
       let qs = require("qs");
       let code = this.editor.getValue()
-
       let data = {
         source_code: code,
         language_id: this.codepost.languageId,

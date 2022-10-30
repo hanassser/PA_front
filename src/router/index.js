@@ -103,11 +103,24 @@ const routes = [
     component: () => import("@/views/codeEditor/CodeEditor"),
     meta: { title: 'code editor', requireAuth: true }
   },
+
+  {
+    path: "/diff-editor/:id/:idtocompare",
+    name: "diff-editor",
+    component: () => import("@/views/diffEditor/DiffEditor"),
+    meta: { title: 'diff editor', requireAuth: true }
+  },
   {
     path: "/code-collab/:id",
     name: "code-collab",
     component: () => import("@/views/codeCollaboration/CodeCollaboration"),
     meta: { title: 'code collaboration', requireAuth: true }
+  },
+  {
+    path: "/code-review/:id",
+    name: "code-review",
+    component: () => import("@/views/codeReview/CodeReview"),
+    meta: { title: 'code Review', requireAuth: true }
   },
 ];
 

@@ -12,6 +12,7 @@
             class="has-text-centered"
         >
           <p class="is-size-5 has-text-weight-bold">{{ codepost.title }}</p>
+
           <div class="has-text-grey is-size-7 mt-3">
             <span>{{ dayjs(codepost.createTime).format('YYYY/MM/DD HH:mm:ss') }}</span>
             <el-divider direction="vertical" />
@@ -39,10 +40,19 @@
               class="level-right"
           >
             <router-link
+                v-if="token && user.id === codePostUser.id"
+                class="level-item"
+                :to="{name:'code-review',params: {id:codepost.id}}"
+            >
+              <span class="tag">Review</span>
+            </router-link>
+
+            <router-link
+                v-if="token && user.id !== codePostUser.id"
                 class="level-item"
                 :to="{name:'code-collab',params: {id:codepost.id}}"
             >
-              <span class="tag">Edit</span>
+              <span class="tag">Collaborate</span>
             </router-link>
 
             <router-link
@@ -51,7 +61,7 @@
             >
               <span class="tag">Run </span>
             </router-link>
-            <a v-if="token && user.id === codePostUser.id"class="level-item">
+            <a v-if="token && user.id === codePostUser.id" class="level-item">
               <span
                   class="tag"
                   @click="handleDelete(codepost.id)"
@@ -61,6 +71,14 @@
 
         </nav>
       </el-card>
+      <button class="button is-link button-center is-fullwidth" @click="modalValidate = !modalValidate">
+        Compare code
+      </button>
+<!--      <button class="button click"  @click="modalValidate = !modalValidate">Save</button>-->
+      <compare-modal
+          :codePostId="codepost.id"
+          v-if="modalValidate"
+          @close="modalValidate = false"/>
 
       <lv-comments :slug="codepost.id" />
     </div>
@@ -71,11 +89,19 @@
           v-if="flag"
           :user="codePostUser"
       />
-      <!--recommend-->
-      <recommend
-          v-if="flag"
-          :topic-id="codepost.id"
-      />
+    <!--      collab-->
+      <collab-before
+          :codePostId="codepost.id">
+      </collab-before>
+
+      <collab-after
+          :codePostId="codepost.id">
+      </collab-after>
+<!--      &lt;!&ndash;recommend&ndash;&gt;-->
+<!--      <recommend-->
+<!--          v-if="flag"-->
+<!--          :topic-id="codepost.id"-->
+<!--      />-->
     </div>
   </div>
 </template>
@@ -89,10 +115,13 @@ import LvComments from '@/components/Comment/Comments'
 import Vditor from 'vditor'
 import 'vditor/dist/index.css'
 import {getCodePost} from "../../api/codepost";
+import CollabAfter from "@/views/codeVersion/Collab"
+import CollabBefore from "@/views/codeVersion/Version"
+import CompareModal from '@/components/CodeEditor/CompareModal'
 
 export default {
   name: 'CodePostDetail',
-  components: { Author, Recommend, LvComments },
+  components: { Author, Recommend, LvComments, CollabBefore, CollabAfter, CompareModal },
   computed: {
     ...mapGetters([
       'token','user'
@@ -100,6 +129,7 @@ export default {
   },
   data() {
     return {
+      modalValidate: false,
       flag: false,
       codepost: {
         code: '',
@@ -122,7 +152,6 @@ export default {
     async fetchTopic() {
       getCodePost(this.$route.params.id).then(response => {
         const { data } = response
-        console.log("DATA : " + JSON.stringify(data))
         document.title = data.codepost.title
 
         this.codepost = data.codepost

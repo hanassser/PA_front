@@ -133,15 +133,6 @@ export default {
         total: 0,
         tab: 'latest'
       },
-      codeResponse:{
-        success: Boolean,
-        output: "Output",
-        language:"",
-        timestamp:""
-      },
-      options:{
-
-      }
     }
   },
   created() {
@@ -149,12 +140,7 @@ export default {
   },
   methods: {
     init(tab) {
-      console.log("activen " + this.activeName)
-
-
-
       if (this.activeName == 1) {
-        console.log("activen " + "here")
         getCodePostList(this.page.current, this.page.size, tab).then((response) => {
           const { data } = response
           this.page.current = data.current
@@ -176,20 +162,6 @@ export default {
     handleClick(tab) {
       this.page.current = 1
       this.init(tab.name)
-    },
-    async executeCode(body) {
-      execute(body).then(response => {
-        const { data } = response
-       this.codeResponse.success = data.success
-        this.codeResponse.output = data.output
-        this.codeResponse.language = data.language
-        this.codeResponse.timestamp = data.timestamp
-        console.log(this.codeResponse)
-      })
-    },
-    onChange(body) {
-    //  execute(body);
-      console.log(body);
     },
   }
 }

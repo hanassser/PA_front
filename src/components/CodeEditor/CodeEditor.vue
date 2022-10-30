@@ -32,7 +32,6 @@ export default {
       default() {
         return  { text: 'java', value: 62 }
       }
-      // default: { text: 'java', value: 62 }
     },
     value: {
       type: String,
@@ -58,7 +57,6 @@ export default {
   watch : {
     chosenLanguage() {
 
-      console.log("codeEditor : "+this.chosenLanguage.text)
         const model = window.editor.getModel(this); // we'll create a model for you if the editor created from string value.
         monaco.editor.setModelLanguage(model, this.chosenLanguage.text)
 
@@ -76,16 +74,12 @@ export default {
       let res = ""
       let qs = require("qs");
       let code = window.editor.getValue()
-      console.log("code : " + code)
-
-      console.log("value langue " + this.chosenLanguage.value)
       let data = {
         source_code: code,
         language_id: this.chosenLanguage.value,
         stdin: ""
       }
       let mydata = JSON.stringify(data)
-      console.log(mydata)
 
       const axios = require("axios");
 
@@ -105,16 +99,15 @@ export default {
       axios.request(options).then((response) =>{
 
         res = response.data
-        console.log("res" + res);
+
         // alert("ok")
         this.$emit('output', res)
       }).catch(function (error) {
         console.error(error);
-        alert("pas ok")
+        alert("An error occured while running")
       });
 
       if(res !== ""){
-        console.log("codeEditor emit : " + res)
         this.$emit('output',res)
       }
 

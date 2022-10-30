@@ -135,7 +135,6 @@ export default {
             }, 800)
           })
         } else {
-          console.log('error submit!!')
           return false
         }
       })
