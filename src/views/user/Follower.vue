@@ -36,8 +36,9 @@ export default {
   },
   methods: {
     fetchInfo() {
-      getAllFollowersArray(this.$store.getters.user.id).then(res => {
-        console.log(res)
+      console.log(" res : " + this.$route.params.id)
+      getAllFollowersArray(this.$route.params.id).then(res => {
+
         const {data} = res
         this.followerList = data
         console.log(this.followerList)

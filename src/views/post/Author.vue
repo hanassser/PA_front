@@ -18,9 +18,8 @@
          
           <div class="column is-half">
             <code>{{ user.followerCount }}</code>
-            <router-link :to="{ path: `/member/${user.username}/followers` }">            <p>Followers</p>
+            <router-link :to="{ name: 'followers',params:{id:user.id} }">            <p>Followers</p>
             </router-link>
-              
           </div>
 
         </div>
@@ -68,7 +67,6 @@ export default {
   },
   methods: {
     getFollowers(){
-      console.log('haha')
       getAllFollowersArray(this.user.id);
     },
     fetchInfo() {

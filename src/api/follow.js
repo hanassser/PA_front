@@ -28,6 +28,9 @@ export function hasFollow(topicUserId) {
 export function getAllFollowersArray(id){
   return request(({
     url:`/relationship/followers/${id}`,
-    method:'get'
+    method:'get',
+    params: {
+      id: id,
+    }
   }))
 }
