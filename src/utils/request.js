@@ -45,9 +45,9 @@ service.interceptors.response.use(
       // 50008: 非法Token; 50012: 异地登录; 50014: Token失效;
       if (res.code === 401 || res.code === 50012 || res.code === 50014) {
         // 重新登录
-        MessageBox.confirm('会话失效，您可以留在当前页面，或重新登录', '权限不足', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+        MessageBox.confirm('The session expires, you can stay on the current page, or log in again', 'Insufficient permissions', {
+          confirmButtonText: 'Confirm',
+          cancelButtonText: 'Cancel',
           type: 'warning',
           center: true
         }).then(() => {
