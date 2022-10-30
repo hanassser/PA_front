@@ -14,11 +14,11 @@ export default {
   name: "LanguageDropdown",
   data: function() {
     return {
-      selected: {text: 'java', value: 62 },
+      selected: {text: 'python', value: 71 },
       options: [
-        { text: 'java', value: 62 },
+        // { text: 'java', value: 62 },
         { text: 'javascript', value: 63 },
-        { text: 'cpp', value: 54 },
+        { text: 'cpp', value: 52},
         { text: 'python', value: 71 }
       ],
     }

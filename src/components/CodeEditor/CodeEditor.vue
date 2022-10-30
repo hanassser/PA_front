@@ -30,12 +30,12 @@ export default {
     chosenLanguage: {
       type: Object,
       default() {
-        return  { text: 'java', value: 62 }
+        return  { text: 'python', value: 71 }
       }
     },
     value: {
       type: String,
-      default: "public class MatSym {    public static void main(String[]args) {\n      System.out.println(2+2);\n    }\n}"
+      default: "print(\"Hello\")"
     }
   },
   async mounted() {
@@ -80,6 +80,7 @@ export default {
         stdin: ""
       }
       let mydata = JSON.stringify(data)
+      console.log(mydata)
 
       const axios = require("axios");
 
@@ -100,7 +101,8 @@ export default {
 
         res = response.data
 
-        // alert("ok")
+        alert("ok")
+        console.log("RES " + JSON.stringify(res))
         this.$emit('output', res)
       }).catch(function (error) {
         console.error(error);
