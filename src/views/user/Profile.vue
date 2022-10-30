@@ -33,6 +33,19 @@
                   </router-link>
                 </div>
               </div>
+              <div>
+                <button
+                    v-if="hasFollow"
+                    class="button is-success button-center is-fullwidth"
+                    @click="handleUnFollow(userId)"
+                >
+                  followed
+                </button>
+
+                <button v-else class="button is-link button-center is-fullwidth" @click="handleFollow(userId)">
+                  follow
+                </button>
+              </div>
             </div>
           </el-card>
         </section>
@@ -105,7 +118,7 @@ import pagination from '@/components/Pagination/index'
 import { mapGetters } from 'vuex'
 import { deleteTopic } from '@/api/post'
 import Author from '@/views/post/Author'
-import {getAllFollowersArray} from "../../api/follow";
+import {unFollow, follow,getAllFollowersArray, hasFollow} from "../../api/follow";
 
 export default {
   name: 'Profile',
@@ -121,7 +134,8 @@ export default {
       },
       userId: "",
       followerCount: 0,
-      followsCount: 0
+      followsCount: 0,
+      hasFollow: false
     }
   },
   computed: {
@@ -130,6 +144,7 @@ export default {
   async created() {
     await this.fetchUserById()
     await this.fetchInfoFollowers()
+    await this.fetchInfo()
     this.userId = this.topicUser.id
   },
   methods: {
@@ -151,6 +166,16 @@ export default {
         this.followerCount = data.length
 
       })
+
+    },
+    async fetchInfo() {
+      // if(this.token != null && this.token !== '')
+      // {
+        hasFollow(this.userId).then(value => {
+          const { data } = value
+          this.hasFollow = data.hasFollow
+        })
+      // }
     },
     handleDelete(id) {
       deleteTopic(id).then(value => {
@@ -162,6 +187,28 @@ export default {
             this.$router.push({ path: '/' })
           }, 500)
         }
+      })
+    },
+    handleFollow: function(id) {
+      if(this.token != null && this.token !== '')
+      {
+        follow(id).then(response => {
+          const { message } = response
+          this.$message.success(message)
+          this.hasFollow = !this.hasFollow
+          this.followerCount = parseInt(this.followerCount) + 1
+        })
+      }
+      else{
+        this.$message.success('please login first')
+      }
+    },
+    handleUnFollow: function(id) {
+      unFollow(id).then(response => {
+        const { message } = response
+        this.$message.success(message)
+        this.hasFollow = !this.hasFollow
+        this.followerCount = parseInt(this.followerCount) - 1
       })
     }
   }
