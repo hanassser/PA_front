@@ -14,7 +14,7 @@
           <p class="ellipsis is-ellipsis-1">
             <el-tooltip class="item" effect="dark" :content="codepost.title" placement="top">
               <router-link :to="{name:'codepost-detail',params:{id:codepost.id}}">
-                <span class="is-size-6">{{ codepost.description }}</span>
+                <span class="is-size-6">{{ codepost.description }} (left)</span>
               </router-link>
             </el-tooltip>
           </p>
@@ -54,7 +54,7 @@
           <p class="ellipsis is-ellipsis-1">
             <el-tooltip class="item" effect="dark" :content="codepostToCompare.title" placement="top">
               <router-link :to="{name:'codepost-detail',params:{id:codepostToCompare.id}}">
-                <span class="is-size-6">{{ codepostToCompare.description }}</span>
+                <span class="is-size-6">{{ codepostToCompare.description }} (right)</span>
               </router-link>
             </el-tooltip>
           </p>

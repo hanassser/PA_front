@@ -23,8 +23,8 @@ export default {
   data: function() {
     return {
       language: {
-        text: "java",
-        value:62
+        text: "python",
+        value:71
       },
       value : "",
       runOutput : {
